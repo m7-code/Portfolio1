@@ -44,7 +44,17 @@ function TornButton({ label, href, delay }) {
 
 export default function Home() {
   return (
+    
     <section className="relative flex h-screen w-full flex-col items-center justify-center gap-6 overflow-hidden bg-black px-4 py-4 md:flex-row md:items-center md:justify-between md:px-16 lg:px-55">
+       <div
+        className="absolute top-4 left-0 h-4 w-screen md:bottom-6 md:h-6"
+        style={{
+          backgroundImage: "url('/torn-line-horizontal.png')",
+          backgroundRepeat: "repeat-x",
+          backgroundPosition: "top left",
+          backgroundSize: "auto 100%",
+        }}
+      />
       {/* Photo block – on mobile: first (top), on desktop: right side */}
       <div className="order-1 flex flex-col items-center gap-8 md:order-2 md:gap-12">
         <motion.h1
@@ -86,6 +96,20 @@ export default function Home() {
           />
         ))}
       </div>
+
+      {/* Horizontal torn line – tiled at NATIVE resolution (no stretching),
+          so the jagged texture stays crisp on any screen width. Height is
+          cropped small to show only the jagged top edge, not the flat
+          solid middle of the source strip. */}
+      <div
+        className="absolute bottom-4 left-0 h-4 w-screen md:bottom-6 md:h-6"
+        style={{
+          backgroundImage: "url('/torn-line-horizontal.png')",
+          backgroundRepeat: "repeat-x",
+          backgroundPosition: "top left",
+          backgroundSize: "auto 100%",
+        }}
+      />
     </section>
   );
 }
