@@ -16,7 +16,7 @@ import "../preloader.css";
 const DEER_ASPECT = 481 / 641; // width / height
 const M7_ASPECT = 465 / 249;
 
-const SHAPE_HEIGHT = 260; // px — both shapes share this height so they read as "same size"
+const SHAPE_HEIGHT = 170; // px — both shapes share this height so they read as "same size"
 const GAP = 36; // px between deer and M7
 
 const COLS_DEER = 10;
@@ -24,9 +24,9 @@ const ROWS_DEER = 13;
 const COLS_M7 = 12;
 const ROWS_M7 = 7;
 
-const ASSEMBLE_DURATION = 0.9;
-const MAX_STAGGER = 0.55;
-const HOLD_MS = 700; // longer hold so the visible seams/cuts register before fading
+const ASSEMBLE_DURATION = 1.6;
+const MAX_STAGGER = 0.9;
+const HOLD_MS = 3000; // generous hold so you have time to screenshot the assembled state
 const FADE_MS = 550;
 
 function randBetween(min, max) {
@@ -116,6 +116,15 @@ export default function ShatterPreloader({ onFinish }) {
   const [assembled, setAssembled] = useState(false);
   const [fading, setFading] = useState(false);
   const [visible, setVisible] = useState(true);
+  const [viewportW, setViewportW] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 1200
+  );
+
+  useEffect(() => {
+    const onResize = () => setViewportW(window.innerWidth);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
 
   const deerShards = useMemo(
     () => buildShards(COLS_DEER, ROWS_DEER, "/deer-mask.png"),
@@ -123,8 +132,23 @@ export default function ShatterPreloader({ onFinish }) {
   );
   const m7Shards = useMemo(() => buildShards(COLS_M7, ROWS_M7, "/m7-mask.png"), []);
 
-  const deerWidth = Math.round(SHAPE_HEIGHT * DEER_ASPECT);
-  const m7Width = Math.round(SHAPE_HEIGHT * M7_ASPECT);
+  const isNarrow = viewportW < 700;
+  const gapPx = isNarrow ? 16 : GAP;
+
+  // Always row layout (deer left, M7 right) — on mobile we just solve
+  // for the shared height that makes (deer + gap + M7) fit the screen.
+  const availableWidth = isNarrow ? viewportW * 0.88 : Infinity;
+  const combinedRatio = DEER_ASPECT + M7_ASPECT; // widths per 1 unit of height
+  const fittedHeight = (availableWidth - gapPx) / combinedRatio;
+
+  const shapeHeight = isNarrow
+    ? Math.max(70, Math.min(fittedHeight, SHAPE_HEIGHT))
+    : SHAPE_HEIGHT;
+
+  const deerWidth = Math.round(shapeHeight * DEER_ASPECT);
+  const deerHeight = Math.round(shapeHeight);
+  const m7Width = Math.round(shapeHeight * M7_ASPECT);
+  const m7Height = Math.round(shapeHeight);
 
   useEffect(() => {
     const startTimer = setTimeout(() => setAssembled(true), 60);
@@ -153,22 +177,25 @@ export default function ShatterPreloader({ onFinish }) {
       <div
         style={{
           display: "flex",
+          flexDirection: "row",
           alignItems: "center",
           justifyContent: "center",
-          gap: GAP,
+          gap: gapPx,
+          maxWidth: "92vw",
+          maxHeight: "85vh",
         }}
       >
         <ShardShape
           shards={deerShards}
           assembled={assembled}
           widthPx={deerWidth}
-          heightPx={SHAPE_HEIGHT}
+          heightPx={deerHeight}
         />
         <ShardShape
           shards={m7Shards}
           assembled={assembled}
           widthPx={m7Width}
-          heightPx={SHAPE_HEIGHT}
+          heightPx={m7Height}
         />
       </div>
     </div>
