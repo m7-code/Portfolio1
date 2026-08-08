@@ -1,11 +1,14 @@
 import { motion } from "motion/react";
+import { Link } from "react-router-dom";
+
+const MotionLink = motion.create(Link);
 
 const navItems = [
-  { label: "About", href: "#about" },
-  { label: "Services", href: "#services" },
-  { label: "Projects", href: "#projects" },
-  { label: "Skills", href: "#skills" },
-  { label: "Contact", href: "#contact" },
+  { label: "About", to: "/about" },
+  { label: "Services", to: "/services" },
+  { label: "Projects", to: "/projects" },
+  { label: "Skills", to: "/skills" },
+  { label: "Contact", to: "/contact" },
 ];
 
 // Shared torn-paper mask
@@ -20,10 +23,10 @@ const tornMaskStyle = {
   maskPosition: "center",
 };
 
-function TornButton({ label, href, delay }) {
+function TornButton({ label, to, delay }) {
   return (
-    <motion.a
-      href={href}
+    <MotionLink
+      to={to}
       initial={{ opacity: 0, x: -24 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.5, delay, ease: "easeOut" }}
@@ -38,23 +41,13 @@ function TornButton({ label, href, delay }) {
       <span className="relative z-10 flex h-full w-full items-center justify-center px-3 text-center text-sm font-semibold tracking-wide text-black md:text-base">
         {label}
       </span>
-    </motion.a>
+    </MotionLink>
   );
 }
 
 export default function Home() {
   return (
-    
     <section className="relative flex h-screen w-full flex-col items-center justify-center gap-6 overflow-hidden bg-black px-4 py-4 md:flex-row md:items-center md:justify-between md:px-16 lg:px-55">
-       <div
-        className="absolute top-4 left-0 h-4 w-screen md:bottom-6 md:h-6"
-        style={{
-          backgroundImage: "url('/torn-line-horizontal.png')",
-          backgroundRepeat: "repeat-x",
-          backgroundPosition: "top left",
-          backgroundSize: "auto 100%",
-        }}
-      />
       {/* Photo block – on mobile: first (top), on desktop: right side */}
       <div className="order-1 flex flex-col items-center gap-8 md:order-2 md:gap-12">
         <motion.h1
@@ -91,7 +84,7 @@ export default function Home() {
           <TornButton
             key={item.label}
             label={item.label}
-            href={item.href}
+            to={item.to}
             delay={0.15 + i * 0.1}
           />
         ))}
