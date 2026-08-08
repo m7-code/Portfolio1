@@ -49,16 +49,17 @@ export default function Home() {
   return (
     <section className="relative flex h-screen w-full flex-col items-center justify-center gap-6 overflow-hidden bg-black px-4 py-4 md:flex-row md:items-center md:justify-between md:px-16 lg:px-55">
       {/* Photo block – on mobile: first (top), on desktop: right side */}
-      <div className="order-1 flex flex-col items-center gap-8 md:order-2 md:gap-12">
-        <motion.h1
+      <div className="order-1 flex flex-col items-center gap-6 md:order-2 md:gap-10">
+        {/* Short tagline instead of the full name (name now lives in the navbar) */}
+        <motion.p
           initial={{ opacity: 0, y: -16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="text-center text-xl uppercase leading-tight text-white sm:text-2xl md:text-4xl"
+          className="text-center text-lg uppercase leading-tight text-white sm:text-xl md:text-2xl"
           style={{ fontFamily: "'Permanent Marker', cursive" }}
         >
-          HI I am Muhammad Mughira Asad
-        </motion.h1>
+          Full Stack AI Engineer
+        </motion.p>
 
         {/* Container ka aspect ratio photo (1080x1080 square) ke barabar rakha
             hai — isliye object-cover kuch bhi crop nahi karega, pura photo
@@ -90,10 +91,8 @@ export default function Home() {
         ))}
       </div>
 
-      {/* Horizontal torn line – tiled at NATIVE resolution (no stretching),
-          so the jagged texture stays crisp on any screen width. Height is
-          cropped small to show only the jagged top edge, not the flat
-          solid middle of the source strip. */}
+      {/* Bottom horizontal torn line — tiled at native resolution so the
+          jagged texture stays crisp on any screen width. */}
       <div
         className="absolute bottom-4 left-0 h-4 w-screen md:bottom-6 md:h-6"
         style={{

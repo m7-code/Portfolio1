@@ -20,7 +20,7 @@ export default function TornSection({ id, title, children }) {
   return (
     <section
       id={id}
-      className="relative flex min-h-screen w-full items-center justify-center bg-black px-4 py-16"
+      className="relative flex min-h-screen w-full items-center justify-center bg-black px-4 pt-24 pb-16 md:pt-28"
     >
       {/* torn-paper background — fills the full screen */}
       <div className="absolute inset-0 bg-[#f5f3ee]" style={tornMaskStyle} />

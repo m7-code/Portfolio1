@@ -7,6 +7,7 @@ import Skills from "./components/Skills";
 import Contact from "./components/Contact";
 import ShatterPreloader from "./components/ShatterPreloader";
 import CursorDust from "./components/CursorDust";
+import TornNavbar from "./components/TornNavbar";
 
 function HomeWithDust() {
   return (
@@ -21,6 +22,7 @@ function App() {
   return (
     <>
       <ShatterPreloader />
+      <TornNavbar />
       <Routes>
         <Route path="/" element={<HomeWithDust />} />
         <Route path="/about" element={<About />} />
