@@ -9,9 +9,11 @@ import ShatterPreloader from "./components/ShatterPreloader";
 import CursorDust from "./components/CursorDust";
 import TornNavbar from "./components/TornNavbar";
 
-function HomeWithDust() {
+// Navbar + cursor dust only render on the Home page now
+function HomeWithExtras() {
   return (
     <>
+      <TornNavbar />
       <CursorDust />
       <Home />
     </>
@@ -22,15 +24,13 @@ function App() {
   return (
     <>
       <ShatterPreloader />
-      <TornNavbar />
       <Routes>
-        <Route path="/" element={<HomeWithDust />} />
+        <Route path="/" element={<HomeWithExtras />} />
         <Route path="/about" element={<About />} />
         <Route path="/services" element={<Services />} />
         <Route path="/projects" element={<Projects />} />
         <Route path="/skills" element={<Skills />} />
         <Route path="/contact" element={<Contact />} />
-        
       </Routes>
     </>
   );
