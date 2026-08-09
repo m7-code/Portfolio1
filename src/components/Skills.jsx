@@ -1,11 +1,11 @@
 import TornSection from "./TornSection";
 
-export default function Services() {
+export default function Skills() {
   return (
-    <TornSection id="services" title="Services">
-      {/* TODO: replace with real Services content later */}
+    <TornSection id="skills" title="Skills">
+      {/* TODO: replace with real Skills content later */}
       <p className="text-center text-base leading-relaxed sm:text-lg">
-        Placeholder text — yahan apna services content baad me likhenge.
+        Placeholder text — yahan apna skills content baad me likhenge.
       </p>
     </TornSection>
   );
