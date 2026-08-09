@@ -23,7 +23,7 @@ export default function TornSection({ id, title, children }) {
   return (
     <section
       id={id}
-      className="relative flex min-h-screen w-full items-center justify-center bg-black px-4 pt-24 pb-16 md:pt-28"
+      className="relative flex min-h-screen w-full items-start justify-center bg-black px-4 pt-24 pb-10 md:pt-28"
     >
       {/* torn-paper background — fills the full screen */}
       <div className="absolute inset-0 bg-[#f5f3ee]" style={tornMaskStyle} />
@@ -36,7 +36,7 @@ export default function TornSection({ id, title, children }) {
         transition={{ duration: 0.4, ease: "easeOut" }}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className="absolute left-8 top-8 z-20 flex items-center gap-1.5 sm:left-26 sm:top-32 md:top-8"
+        className="absolute left-8 top-10 z-20 flex items-center gap-1.5 sm:left-26 sm:top-32 md:top-8"
         aria-label="Go back"
       >
         <span className="absolute inset-0 bg-black" style={tornMaskStyle} />
@@ -54,11 +54,11 @@ export default function TornSection({ id, title, children }) {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="relative z-10 w-full max-w-3xl px-6 py-10 text-black sm:px-10 sm:py-14"
+        className="relative z-10 w-full max-w-3xl px-6 py-4 text-black sm:px-10 sm:py-6 md:max-w-4xl lg:max-w-5xl"
       >
         {title && (
           <h2
-            className="mb-6 text-center text-3xl uppercase leading-tight sm:text-4xl md:text-5xl"
+            className="mb-3 text-center text-3xl uppercase leading-tight sm:text-4xl md:text-5xl"
             style={{ fontFamily: "'Permanent Marker', cursive" }}
           >
             {title}
