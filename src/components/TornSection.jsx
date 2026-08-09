@@ -1,12 +1,17 @@
+import { useState } from "react";
 import { motion } from "motion/react";
 import { useNavigate } from "react-router-dom";
 import { tornMaskStyle } from "../tornMask";
 
+const colorOptions = [
+  { label: "Black", value: "#000000" },
+  { label: "Red", value: "#b91c1c" },
+  { label: "Navy", value: "#1e3a5f" }, // my pick — reads well on the cream paper bg
+];
+
 /**
- * Full-viewport torn-paper page section with a built-in back button.
- * The torn-paper shape fills the ENTIRE screen (edge to edge, same on
- * mobile and desktop, since mask-size:100% 100% always stretches to
- * whatever container size we give it — here that's the full screen).
+ * Full-viewport torn-paper page section with a built-in back button
+ * and a text-color switcher (3 torn-paper swatches, top-right).
  *
  * Usage:
  *   <TornSection id="about" title="About">
@@ -15,10 +20,15 @@ import { tornMaskStyle } from "../tornMask";
  *
  * Reuse this SAME component for every section (About, Services,
  * Projects, Skills, Contact) so they all stay visually identical AND
- * all get the same back button — just change id/title/children.
+ * all get the same back button + color switcher.
+ *
+ * IMPORTANT: for the color switcher to actually work, content passed
+ * as children should NOT hardcode its own text color (no text-black /
+ * text-neutral-800 etc). Let it inherit color from this wrapper.
  */
 export default function TornSection({ id, title, children }) {
   const navigate = useNavigate();
+  const [textColor, setTextColor] = useState(colorOptions[0].value);
 
   return (
     <section
@@ -48,13 +58,40 @@ export default function TornSection({ id, title, children }) {
         </span>
       </motion.button>
 
-      {/* content sits above the mask, stays crisp (not masked) */}
+      {/* Text-color switcher — top-right, 3 small torn-paper swatches */}
+      <div className="absolute right-4 top-10 z-20 flex items-center gap-2 sm:right-8 md:top-8">
+        {colorOptions.map((c) => (
+          <button
+            key={c.value}
+            onClick={() => setTextColor(c.value)}
+            aria-label={`Set text color to ${c.label}`}
+            className="relative h-8 w-8 shrink-0"
+          >
+            <span
+              className="absolute inset-0"
+              style={{ ...tornMaskStyle, backgroundColor: c.value }}
+            />
+            {textColor === c.value && (
+              <span className="absolute inset-0 flex items-center justify-center">
+                <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" className="h-3.5 w-3.5">
+                  <path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
+            )}
+          </button>
+        ))}
+      </div>
+
+      {/* content sits above the mask, stays crisp (not masked).
+          color here is inherited by all children unless a child
+          explicitly overrides it. */}
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="relative z-10 w-full max-w-3xl px-6 py-4 text-black sm:px-10 sm:py-6 md:max-w-4xl lg:max-w-5xl"
+        style={{ color: textColor }}
+        className="relative z-10 w-full max-w-3xl px-6 py-4 sm:px-10 sm:py-6 md:max-w-4xl lg:max-w-5xl"
       >
         {title && (
           <h2
