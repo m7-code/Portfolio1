@@ -59,7 +59,7 @@ export default function TornSection({ id, title, children }) {
       </motion.button>
 
       {/* Text-color switcher — top-right, 3 small torn-paper swatches */}
-      <div className="absolute right-4 top-10 z-20 flex items-center gap-2 sm:right-8 md:top-8">
+      <div className="absolute right-5 top-10 z-20 flex items-center gap-2 sm:right-16 md:top-10">
         {colorOptions.map((c) => (
           <button
             key={c.value}

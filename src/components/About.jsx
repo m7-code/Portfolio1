@@ -15,19 +15,21 @@ const markerFont = { fontFamily: "'Permanent Marker', cursive" };
 export default function About() {
   return (
     <TornSection id="about" title="About">
+      {/* No text-color classes here anymore — color is inherited from
+          TornSection's switcher (black/red/navy). */}
       <p
-        className="mb-5 text-center text-base uppercase tracking-wide text-neutral-700 sm:text-xl"
+        className="mb-5 text-center text-base uppercase tracking-wide sm:text-lg"
         style={markerFont}
       >
         Full Stack AI Engineer
       </p>
 
-      {/* tech stack pills */}
+      {/* tech stack pills — border stays black (structural), text follows switcher */}
       <div className="mb-6 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
         {stack.map((item) => (
           <span
             key={item}
-            className="rounded-full border border-black/70 px-3 py-1 text-xs tracking-wide text-black sm:text-sm"
+            className="rounded-full border border-current px-3 py-1 text-xs tracking-wide sm:text-sm"
             style={markerFont}
           >
             {item}
@@ -36,7 +38,7 @@ export default function About() {
       </div>
 
       <div
-        className=" space-y-3 text-xl leading-relaxed text-neutral-800 sm:text-xl sm:leading-relaxed"
+        className="space-y-3 text-sm leading-relaxed sm:text-base sm:leading-relaxed"
         style={markerFont}
       >
         <p>
