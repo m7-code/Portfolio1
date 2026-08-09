@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export const NAVBAR_HEIGHT_CLASS = "h-24 md:h-28"; // keep in sync with pt-* on page sections
+export const NAVBAR_HEIGHT_CLASS = "h-16 md:h-26"; // keep in sync with pt-* on page sections
 
 const socials = [
   {
@@ -43,7 +43,7 @@ export default function TornNavbar() {
       <div className="absolute inset-0 bg-[#f5f3ee]" />
 
       <div
-        className="absolute -bottom-3 left-0 h-6 w-screen md:-bottom-4 md:h-8"
+        className="absolute -bottom-2 left-0 h-5 w-screen md:-bottom-4 md:h-8"
         style={{
           backgroundImage: "url('/torn-line-horizontal.png')",
           backgroundRepeat: "repeat-x",
