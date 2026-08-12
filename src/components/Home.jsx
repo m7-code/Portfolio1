@@ -1,173 +1,274 @@
-import { motion } from "motion/react";
-import { Link } from "react-router-dom";
+// Home.jsx
+// React + Tailwind — full-screen hero.
+// Colors match the original design (cream paper / black ink / tape tones).
+//
+// 1) Add these fonts in your index.html <head>:
+//    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Space+Mono:wght@400;700&family=Anton&display=swap" rel="stylesheet">
+//
+// 2) Put these three generated assets in your /public folder:
+//    - plane-path.svg        (animated paper airplane that loops on a dotted flight path)
+//    - torn-edge-black.png   (bigger, jagged torn-paper strip above the bottom navbar)
+//    - world-map-mask.svg    (simplified continents — used to mask the dotted texture behind "BASED IN PAKISTAN")
 
-const MotionLink = motion.create(Link);
+import React from "react";
 
 const navItems = [
-  { label: "About", to: "/about" },
-  { label: "Services", to: "/services" },
-  { label: "Projects", to: "/projects" },
-  { label: "Skills", to: "/skills" },
-  { label: "Contact", to: "/contact" },
+  { label: "Home", to: "#home" },
+  { label: "About", to: "#about" },
+  { label: "Services", to: "#services" },
+  { label: "Projects", to: "#projects" },
+  { label: "Skills", to: "#skills" },
+  { label: "Contact", to: "#contact" },
 ];
 
-// Shared torn-paper mask
-const tornMaskStyle = {
-  WebkitMaskImage: "url('/torn-paper.png')",
-  WebkitMaskSize: "100% 100%",
-  WebkitMaskRepeat: "no-repeat",
-  WebkitMaskPosition: "center",
-  maskImage: "url('/torn-paper.png')",
-  maskSize: "100% 100%",
-  maskRepeat: "no-repeat",
-  maskPosition: "center",
-};
+// scattered twinkling stars — position (top/left in %), size, delay
+const stars = [
+  { top: "16%", left: "44%", size: 12, delay: 0 },
+  { top: "26%", left: "58%", size: 8, delay: 0.4 },
+  { top: "40%", left: "36%", size: 7, delay: 0.9 },
+  { top: "62%", left: "46%", size: 9, delay: 1.3 },
+  { top: "74%", left: "27%", size: 7, delay: 0.6 },
+  { top: "20%", left: "9%", size: 8, delay: 1.6 },
+  { top: "56%", left: "6%", size: 6, delay: 1.0 },
+  { top: "48%", left: "62%", size: 6, delay: 1.8 },
+];
 
-function TornButton({ label, to, delay }) {
+function Star({ top, left, size, delay }) {
   return (
-    <MotionLink
-      to={to}
-      initial={{ opacity: 0, x: -24 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.5, delay, ease: "easeOut" }}
-      whileHover={{ scale: 1.06, rotate: -1 }}
-      whileTap={{ scale: 0.96 }}
-      className="relative block w-32 h-11 md:w-40 md:h-12 cursor-pointer select-none"
+    <svg
+      className="absolute pointer-events-none"
+      style={{
+        top,
+        left,
+        width: size,
+        height: size,
+        animation: `twinkle 2.2s ease-in-out infinite`,
+        animationDelay: `${delay}s`,
+        transformOrigin: "center",
+      }}
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
     >
-      <span
-        className="absolute inset-0 bg-white transition-colors duration-300 hover:bg-neutral-100"
-        style={tornMaskStyle}
-      />
-      <span className="relative z-10 flex h-full w-full items-center justify-center px-3 text-center text-sm font-semibold tracking-wide text-black md:text-base">
-        {label}
-      </span>
-    </MotionLink>
+      <path d="M10 0 L12 8 L20 10 L12 12 L10 20 L8 12 L0 10 L8 8 Z" fill="#181410" />
+    </svg>
   );
 }
 
 export default function Home() {
   return (
-    <section className="relative flex min-h-[100dvh] w-full flex-col items-center justify-center gap-6 overflow-hidden bg-black px-4 pt-20 pb-4 md:h-screen md:flex-row md:items-center md:justify-between md:px-16 md:pt-24 lg:px-65">
-      {/* Photo block – on mobile: first (top), on desktop: right side */}
-      <div className="order-1 flex -translate-y-6 flex-col items-center md:order-2 md:translate-y-0">
-       
+    <div className="min-h-screen md:h-screen w-full overflow-y-auto md:overflow-hidden flex flex-col bg-[#eee6d3] text-[#181410]">
+      <style>{`
+        @keyframes twinkle {
+          0%, 100% { opacity: .15; transform: scale(.6); }
+          50%      { opacity: 1;   transform: scale(1.1); }
+        }
+        @keyframes point {
+          0%, 20%   { transform: translate(0, 0) rotate(0deg); }
+          10%       { transform: translate(4px, -4px) rotate(-4deg); }
+          30%, 100% { transform: translate(0, 0) rotate(0deg); }
+        }
+        .arrow-point {
+          animation: point 2.5s ease-in-out infinite;
+          transform-origin: bottom left;
+        }
+      `}</style>
 
-        {/* Container ka aspect ratio photo (1080x1080 square) ke barabar rakha
-            hai — isliye object-cover kuch bhi crop nahi karega, pura photo
-            corner-to-corner torn-shape ke andar fit hoga */}
-        {/* Photo block */}
-<motion.div
-  initial={{ opacity: 0, scale: 0.92 }}
-  animate={{ opacity: 1, scale: 1 }}
-  transition={{ duration: 0.7, ease: "easeOut", delay: 0.15 }}
-  className="relative -translate-y-6 md:left-[140px] h-[390px] w-[390px] shrink-0 sm:h-[300px] sm:w-[300px] md:h-[680px] md:w-[740px] md:translate-y-0"
->
-  <img
-    src="/muhammad-mughira-asad1.png"
-    alt="Muhammad Mughira Asad"
-    className="h-full w-full object-contain"
-  />
-</motion.div>
-      </div>
+      {/* ================= TOP NAV — right aligned ================= */}
+      <header className="shrink-0 w-full px-4 sm:px-8 md:px-20 pt-4 md:pt-6 pb-2">
+        <nav className="flex flex-wrap items-center justify-end gap-x-5 md:gap-x-8 gap-y-1 font-['Space_Mono'] text-[13px] md:text-[15px] tracking-wide">
+          {navItems.map((item) => (
+            <a key={item.label} href={item.to} className="hover:opacity-60 transition-opacity">
+              {item.label}
+            </a>
+          ))}
+        </nav>
+      </header>
 
-      {/* Nav buttons – on mobile: bottom, on desktop: left side */}
-      <div className="order-2 -translate-y-32 flex flex-row flex-wrap items-center justify-center gap-10 md:order-1 md:mt-10 md:-ml-8 md:flex-col md:items-start md:justify-start md:gap-10 md:translate-y-0 lg:-ml-32">
-        {navItems.map((item, i) => (
-          <TornButton
-            key={item.label}
-            label={item.label}
-            to={item.to}
-            delay={0.15 + i * 0.1}
-          />
+      {/* ================= MAIN HERO ================= */}
+      <section className="relative flex-1 min-h-0 overflow-hidden">
+        {stars.map((s, i) => (
+          <Star key={i} {...s} />
         ))}
-      </div>
 
-      {/* Mobile-only: logo (left) + social icons (right), sitting
-          directly inside the bottom torn line band. Hidden on sm+
-          since the navbar already shows these on larger screens. */}
-      <div className="fixed bottom-0 left-0 z-50 flex h-14 w-full items-center justify-between bg-[#f5f3ee] px-5 sm:hidden">
-        <Link to="/" className="flex items-center gap-2">
-          <div
-            className="h-7 w-7 bg-black"
-            style={{
-              WebkitMaskImage: "url('/deer-mask.png')",
-              maskImage: "url('/deer-mask.png')",
-              WebkitMaskRepeat: "no-repeat",
-              maskRepeat: "no-repeat",
-              WebkitMaskSize: "contain",
-              maskSize: "contain",
-              WebkitMaskPosition: "center",
-              maskPosition: "center",
-            }}
-          />
-          <span
-            className="text-2xl text-black"
-            style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 800 }}
-          >
-            M7
-          </span>
-        </Link>
+        {/* 2-column grid ALWAYS (even on mobile) so the photo stays top-right and text stays left,
+            instead of stacking full-width like before. */}
+        <div className="relative w-full h-full px-4 sm:px-8 md:px-20 py-3 md:py-4 grid grid-cols-[1.3fr_1fr] gap-4 sm:gap-6 md:gap-10 items-start">
+          {/* LEFT: text content */}
+          <div className="relative flex flex-col justify-center h-full">
+            <span className="inline-block w-fit bg-[#e4d9bf] border border-black/15 px-3 md:px-5 py-1.5 md:py-2 text-[11px] md:text-[15px] tracking-widest -rotate-2 shadow-[2px_3px_0_rgba(0,0,0,0.08)] mb-3 md:mb-6 font-['Space_Mono']">
+              MY PORTFOLIO
+            </span>
 
-        <div className="flex items-center gap-4 ">
-          <a
-            href="https://github.com/m7-code"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub"
-            className="transition hover:opacity-70"
-          >
-            <svg viewBox="0 0 24 24" fill="black" className="h-6 w-6">
-              <path d="M12 .5C5.73.5.9 5.33.9 11.6c0 4.98 3.23 9.2 7.71 10.69.56.1.77-.24.77-.54 0-.27-.01-1.16-.02-2.1-3.14.68-3.8-1.34-3.8-1.34-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.72 1.16 1.72 1.16 1 1.72 2.63 1.22 3.27.93.1-.73.4-1.22.72-1.5-2.51-.29-5.15-1.26-5.15-5.6 0-1.24.44-2.25 1.16-3.04-.12-.29-.5-1.44.11-3 0 0 .95-.3 3.1 1.16a10.7 10.7 0 0 1 5.64 0c2.15-1.46 3.1-1.16 3.1-1.16.61 1.56.23 2.71.11 3 .72.79 1.16 1.8 1.16 3.04 0 4.35-2.64 5.31-5.16 5.59.41.35.77 1.04.77 2.1 0 1.52-.01 2.74-.01 3.11 0 .3.2.65.78.54A11.1 11.1 0 0 0 23.1 11.6C23.1 5.33 18.27.5 12 .5Z" />
-            </svg>
-          </a>
-          <a
-            href="https://www.linkedin.com/in/muhammad-mughira-asad-85251a32a/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn"
-            className="transition hover:opacity-70"
-          >
-            <svg viewBox="0 0 24 24" fill="black" className="h-6 w-6">
-              <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.44-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.8 0 0 .78 0 1.75v20.5C0 23.22.8 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.75V1.75C24 .78 23.2 0 22.22 0Z" />
-            </svg>
-          </a>
-          <a
-            href="mailto:mughiraasad6@gmail.com"
-            aria-label="Email"
-            className="transition hover:opacity-70"
-          >
-            <svg viewBox="0 0 24 24" fill="black" className="h-6 w-6">
-              <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />
-              <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
-            </svg>
-          </a>
+            <h1 className="font-['Permanent_Marker'] leading-[1.05] text-[26px] sm:text-[36px] md:text-[64px] mb-3 md:mb-5">
+              MUHAMMAD
+              <br />
+              MUGHIRA ASAD
+            </h1>
+
+            <span className="inline-block w-fit bg-[#151210] text-[#eee6d3] font-bold tracking-wider text-[11px] md:text-[17px] px-3 md:px-5 py-1.5 md:py-2.5 -rotate-1 mb-3 md:mb-5 font-['Space_Mono']">
+              FULL STACK AI ENGINEER
+            </span>
+
+            <p className="font-['Space_Mono'] text-[12px] md:text-[16.5px] leading-relaxed text-[#4a4136] max-w-[420px] border-b-2 border-[#181410] pb-2 md:pb-3 mb-4 md:mb-8">
+              I build clean, creative and impactful digital experiences.
+            </p>
+
+            <div className="flex flex-wrap items-start gap-4 md:gap-6">
+              {/* 2-column button grid so all 5 links fit without getting clipped off-screen */}
+              <nav className="grid grid-cols-2 gap-2 md:gap-3 max-w-[260px] md:max-w-[320px] font-['Space_Mono']">
+                {navItems.slice(1).map((item, i) => (
+                  <a
+                    key={item.label}
+                    href={item.to}
+                    className={`bg-[#ddd0b1] border border-black/10 px-3 md:px-5 py-2 md:py-3 text-[11px] md:text-[16px] flex items-center gap-1.5 shadow-[2px_3px_0_rgba(0,0,0,0.07)] transition-transform hover:-translate-y-1 hover:rotate-0 whitespace-nowrap ${
+                      i % 2 === 0 ? "-rotate-1" : "rotate-1"
+                    }`}
+                  >
+                    → {item.label}
+                  </a>
+                ))}
+              </nav>
+
+              {/* BASED IN PAKISTAN — dotted texture masked into an actual world-map silhouette */}
+              <div className="relative w-[110px] md:w-[170px] -rotate-3 hidden sm:block">
+                <div
+                  className="absolute -inset-3 opacity-40 pointer-events-none"
+                  style={{
+                    backgroundImage: "radial-gradient(#181410 1px, transparent 1.4px)",
+                    backgroundSize: "6px 6px",
+                    WebkitMaskImage: "url(/world-map-dots.svg)",
+                    maskImage: "url(/world-map-dots.svg)",
+                    WebkitMaskRepeat: "no-repeat",
+                    maskRepeat: "no-repeat",
+                    WebkitMaskSize: "contain",
+                    maskSize: "contain",
+                    WebkitMaskPosition: "center",
+                    maskPosition: "center",
+                  }}
+                />
+                <div className="relative bg-transparent border-2 border-[#181410]/70 px-3 md:px-6 py-3 md:py-5 text-center text-[10px] md:text-[14px] tracking-wide shadow-[3px_4px_0_rgba(0,0,0,0.1)] font-['Space_Mono'] backdrop-blur-[1px]">
+                  BASED IN
+                  <br />
+                  PAKISTAN
+                  <svg className="w-6 md:w-9 mx-auto mt-1.5 md:mt-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M12 2C7.6 2 4 5.6 4 10c0 6 8 12 8 12s8-6 8-12c0-4.4-3.6-8-8-8z"
+                      stroke="#181410"
+                      strokeWidth="1.6"
+                    />
+                    <circle cx="12" cy="10" r="2.6" stroke="#181410" strokeWidth="1.6" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT: photo + "this is me" + flying-plane graphic — pinned top-right on every screen size */}
+          <div className="relative flex flex-col items-end h-full pt-1 md:pt-2">
+            <div className="relative">
+              {/* tape strip */}
+              <div className="absolute -top-2 md:-top-3 left-1/2 -translate-x-1/2 -rotate-6 w-12 md:w-20 h-4 md:h-7 bg-gradient-to-b from-[#cabb96] to-[#ddd0b1] opacity-85 shadow-[0_2px_4px_rgba(0,0,0,0.18)] z-10" />
+
+              {/* crown */}
+              <svg
+                className="absolute -top-2 -right-4 md:-top-3 md:-right-8 w-11 md:w-20 rotate-[20deg] z-20"
+                viewBox="0 0 70 50"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M6 40 L10 15 L22 27 L32 8 L42 27 L54 15 L58 40 Z"
+                  stroke="#181410"
+                  strokeWidth="2.5"
+                  strokeLinejoin="round"
+                  fill="#eee6d3"
+                />
+                <path
+                  style={{ animation: "twinkle 1.8s ease-in-out infinite", transformOrigin: "center", transformBox: "fill-box" }}
+                  d="M64 4 L66 10 L72 12 L66 14 L64 20 L62 14 L56 12 L62 10 Z"
+                  fill="#181410"
+                />
+                <path
+                  style={{ animation: "twinkle 1.8s ease-in-out infinite .6s", transformOrigin: "center", transformBox: "fill-box" }}
+                  d="M2 2 L3.5 6 L7.5 7.5 L3.5 9 L2 13 L0.5 9 L-3.5 7.5 L0.5 6 Z"
+                  fill="#181410"
+                />
+              </svg>
+
+              {/* photo — bigger on desktop, smaller (but still clear) on mobile */}
+              <img
+                src="muhammad-mughira-asad2.png"
+                alt="Muhammad Mughira Asad"
+                className="w-[150px] sm:w-[210px] md:w-[420px] lg:w-[460px] max-w-full block rotate-3 drop-shadow-[0_18px_30px_rgba(0,0,0,0.35)]"
+              />
+
+              {/* "THIS IS ME" */}
+              <div className="absolute -left-1 md:-left-[10px] top-[100%] mt-1.5 md:mt-3 flex items-start gap-1 md:gap-2 -rotate-2">
+                <span className="font-['Permanent_Marker'] text-[10px] md:text-[19px] leading-none whitespace-nowrap mt-0.5 md:mt-1">
+                  THIS IS ME
+                </span>
+                <svg className="arrow-point w-6 md:w-12" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6 54 C 14 30, 28 12, 52 4" stroke="#181410" strokeWidth="2.6" strokeLinecap="round" />
+                  <path d="M36 2 L54 4 L48 20" stroke="#181410" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
+            </div>
+
+            {/* ===== "Turning Ideas Into Impact" — animated paper plane looping along a dotted path ===== */}
+            <div className="relative mt-10 sm:mt-16 md:mt-28 w-[140px] sm:w-[220px] md:w-[340px]">
+              <div className="font-['Permanent_Marker'] text-[11px] sm:text-[15px] md:text-[19px] leading-tight mb-1">
+                Turning Ideas
+              </div>
+              <div className="relative inline-block font-['Permanent_Marker'] text-[11px] sm:text-[15px] md:text-[19px] leading-tight mb-2 md:mb-3">
+                Into Impact
+                <svg
+                  className="absolute -left-4 -right-4 -top-2.5 -bottom-1.5 w-[calc(100%+32px)] h-[calc(100%+16px)]"
+                  viewBox="0 0 160 48"
+                  fill="none"
+                  preserveAspectRatio="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <ellipse cx="80" cy="24" rx="76" ry="20" stroke="#181410" strokeWidth="1.8" />
+                </svg>
+              </div>
+
+              {/* generated asset — see plane-path.svg, drop it in /public.
+                  The airplane inside this SVG loops on its own via SMIL animateMotion. */}
+              <img src="/paper_plane_continuous_animated.svg" alt="" className="w-full h-[46px] sm:h-[64px] md:h-[90px]" />
+            </div>
+          </div>
         </div>
-       
-      </div>
- {/* Bottom horizontal torn line — tiled at native resolution so the
-          jagged texture stays crisp on any screen width. */}
-      {/* Desktop bottom torn line */}
-<div
-  className="absolute -bottom-4 left-0 hidden h-8 w-screen md:block"
-  style={{
-    backgroundImage: "url('/torn-line-horizontal.png')",
-    backgroundRepeat: "repeat-x",
-    backgroundPosition: "top left",
-    backgroundSize: "auto 100%",
-  }}
-/>
+      </section>
 
-{/* Mobile bottom torn line */}
-<div
-  className="fixed bottom-11 left-0 z-[60] h-5 w-screen md:hidden"
-  style={{
-    backgroundImage: "url('/torn-line-horizontal.png')",
-    backgroundRepeat: "repeat-x",
-    backgroundPosition: "top left",
-    backgroundSize: "auto 100%",
-  }}
-/>
-      
-    </section>
+      {/* ================= BOTTOM BLACK NAVBAR — bigger, torn top edge ================= */}
+      {/* ================= BOTTOM BLACK NAVBAR ================= */}
+<footer className="shrink-0 relative w-full">
+  <div className="bg-[#151210] text-[#eee6d3] px-4 sm:px-8 md:px-20 py-4 md:py-5 flex items-center justify-between">
+    <span className="font-['Space_Mono'] text-[11px] sm:text-[13.5px] md:text-[15px] tracking-wide">
+      Muhammad Mughira Asad — Full Stack AI Engineer
+    </span>
+
+    <div className="flex items-center gap-4 md:gap-5">
+      <a href="https://linkedin.com/in/your-handle" target="_blank" rel="noreferrer" aria-label="LinkedIn" className="hover:opacity-60 transition-opacity">
+        <svg width="19" height="19" className="md:w-[22px] md:h-[22px]" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.15 1.45-2.15 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z" />
+        </svg>
+      </a>
+      <a href="https://github.com/your-handle" target="_blank" rel="noreferrer" aria-label="GitHub" className="hover:opacity-60 transition-opacity">
+        <svg width="19" height="19" className="md:w-[22px] md:h-[22px]" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 .5C5.73.5.98 5.24.98 11.52c0 5.02 3.26 9.28 7.78 10.78.57.1.78-.25.78-.55v-2.15c-3.16.69-3.83-1.36-3.83-1.36-.52-1.31-1.26-1.66-1.26-1.66-1.03-.7.08-.69.08-.69 1.14.08 1.74 1.17 1.74 1.17 1.01 1.73 2.65 1.23 3.3.94.1-.73.4-1.23.72-1.51-2.52-.29-5.17-1.26-5.17-5.62 0-1.24.44-2.26 1.17-3.05-.12-.29-.51-1.45.11-3.02 0 0 .96-.31 3.15 1.16a10.9 10.9 0 0 1 5.74 0c2.18-1.47 3.14-1.16 3.14-1.16.62 1.57.23 2.73.11 3.02.73.79 1.17 1.81 1.17 3.05 0 4.37-2.66 5.32-5.19 5.6.41.36.77 1.06.77 2.14v3.17c0 .3.2.66.79.55A11.03 11.03 0 0 0 23.02 11.5C23.02 5.24 18.27.5 12 .5z" />
+        </svg>
+      </a>
+      <a href="mailto:you@example.com" aria-label="Email" className="hover:opacity-60 transition-opacity">
+        <svg width="19" height="19" className="md:w-[22px] md:h-[22px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2.5" y="4.5" width="19" height="15" rx="2" />
+          <path d="M3 6.5l9 6.5 9-6.5" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</footer>
+    </div>
   );
 }
