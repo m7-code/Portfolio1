@@ -333,17 +333,17 @@ export default function Home() {
           </span>
 
           <div className="flex items-center gap-5">
-            <a href="https://linkedin.com/in/your-handle" target="_blank" rel="noreferrer" aria-label="LinkedIn" className="hover:opacity-60 transition-opacity">
+            <a href="https://www.linkedin.com/in/muhammad-mughira-asad-85251a32a/" target="_blank" rel="noreferrer" aria-label="LinkedIn" className="hover:opacity-60 transition-opacity">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.15 1.45-2.15 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 1 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z" />
               </svg>
             </a>
-            <a href="https://github.com/your-handle" target="_blank" rel="noreferrer" aria-label="GitHub" className="hover:opacity-60 transition-opacity">
+            <a href="https://github.com/m7-code" target="_blank" rel="noreferrer" aria-label="GitHub" className="hover:opacity-60 transition-opacity">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 .5C5.73.5.98 5.24.98 11.52c0 5.02 3.26 9.28 7.78 10.78.57.1.78-.25.78-.55v-2.15c-3.16.69-3.83-1.36-3.83-1.36-.52-1.31-1.26-1.66-1.26-1.66-1.03-.7.08-.69.08-.69 1.14.08 1.74 1.17 1.74 1.17 1.01 1.73 2.65 1.23 3.3.94.1-.73.4-1.23.72-1.51-2.52-.29-5.17-1.26-5.17-5.62 0-1.24.44-2.26 1.17-3.05-.12-.29-.51-1.45.11-3.02 0 0 .96-.31 3.15 1.16a10.9 10.9 0 0 1 5.74 0c2.18-1.47 3.14-1.16 3.14-1.16.62 1.57.23 2.73.11 3.02.73.79 1.17 1.81 1.17 3.05 0 4.37-2.66 5.32-5.19 5.6.41.36.77 1.06.77 2.14v3.17c0 .3.2.66.79.55A11.03 11.03 0 0 0 23.02 11.5C23.02 5.24 18.27.5 12 .5z" />
               </svg>
             </a>
-            <a href="mailto:you@example.com" aria-label="Email" className="hover:opacity-60 transition-opacity">
+            <a href="mailto:mughiraasad6@gmail.com" aria-label="Email" className="hover:opacity-60 transition-opacity">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" xmlns="http://www.w3.org/2000/svg">
                 <rect x="2.5" y="4.5" width="19" height="15" rx="2" />
                 <path d="M3 6.5l9 6.5 9-6.5" />
