@@ -1,12 +1,13 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const navItems = [
-  { label: "Home", to: "#home" },
-  { label: "About", to: "#about" },
-  { label: "Services", to: "#services" },
-  { label: "Projects", to: "#projects" },
-  { label: "Skills", to: "#skills" },
-  { label: "Contact", to: "#contact" },
+  { label: "Home", to: "/" },
+  { label: "About", to: "/about" },
+  { label: "Services", to: "/services" },
+  { label: "Projects", to: "/projects" },
+  { label: "Skills", to: "/skills" },
+  { label: "Contact", to: "/contact" },
 ];
 
 const stars = [
@@ -65,9 +66,9 @@ export default function Home() {
       <header className="shrink-0 w-full px-4 sm:px-8 md:px-16 pt-4 md:pt-6 pb-2 z-20">
         <nav className="flex flex-wrap items-center justify-center sm:justify-end gap-x-4 sm:gap-x-8 gap-y-2 font-['Space_Mono'] text-xs sm:text-sm tracking-wide">
           {navItems.map((item) => (
-            <a key={item.label} href={item.to} className="hover:opacity-60 transition-opacity">
+            <Link key={item.label} to={item.to} className="hover:opacity-60 transition-opacity">
               {item.label}
-            </a>
+            </Link>
           ))}
         </nav>
       </header>
@@ -103,15 +104,15 @@ export default function Home() {
               {/* Nav Buttons Grid */}
               <nav className="grid grid-cols-2 gap-2 sm:gap-3 w-full sm:w-auto max-w-xs font-['Space_Mono']">
                 {navItems.slice(1).map((item, i) => (
-                  <a
+                  <Link
                     key={item.label}
-                    href={item.to}
+                    to={item.to}
                     className={`bg-[#ddd0b1] border border-black/10 px-3 py-2 text-xs sm:text-sm flex items-center justify-center sm:justify-start gap-1.5 shadow-[2px_3px_0_rgba(0,0,0,0.07)] transition-transform hover:-translate-y-1 hover:rotate-0 whitespace-nowrap ${
                       i % 2 === 0 ? "-rotate-1" : "rotate-1"
                     }`}
                   >
                     → {item.label}
-                  </a>
+                  </Link>
                 ))}
               </nav>
 
