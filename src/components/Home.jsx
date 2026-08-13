@@ -118,10 +118,10 @@ export default function Home() {
               {/* BASED IN PAKISTAN Badge */}
               <div className="relative w-28 sm:w-36 -rotate-3 shrink-0">
                 <div
-                  className="absolute -inset-2 opacity-40 pointer-events-none"
+                  className="absolute -inset-2 opacity-100 pointer-events-none"
                   style={{
-                    backgroundImage: "radial-gradient(#181410 1px, transparent 1.4px)",
-                    backgroundSize: "6px 6px",
+                    backgroundImage: "radial-gradient(black 1.5px, transparent 1.4px)",
+                    backgroundSize: "8px 8px",
                     WebkitMaskImage: "url(/world-map-dots.svg)",
                     maskImage: "url(/world-map-dots.svg)",
                     WebkitMaskRepeat: "no-repeat",
@@ -132,7 +132,7 @@ export default function Home() {
                     maskPosition: "center",
                   }}
                 />
-                <div className="relative bg-[#eee6d3]/80 border-2 border-[#181410]/70 px-3 py-3 text-center text-xs tracking-wide shadow-[3px_4px_0_rgba(0,0,0,0.1)] font-['Space_Mono'] backdrop-blur-[1px]">
+                <div className="relative bg-transparent border-2 border-[#181410]/70 px-3 py-3 text-center text-xs tracking-wide shadow-[3px_4px_0_rgba(0,0,0,0.1)] font-['Space_Mono'] backdrop-blur-[1px]">
                   BASED IN<br />PAKISTAN
                   <svg className="w-6 mx-auto mt-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 2C7.6 2 4 5.6 4 10c0 6 8 12 8 12s8-6 8-12c0-4.4-3.6-8-8-8z" stroke="#181410" strokeWidth="1.6" />
