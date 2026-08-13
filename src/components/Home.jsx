@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const navItems = [
@@ -44,6 +44,8 @@ function Star({ top, left, size, delay }) {
 }
 
 export default function Home() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <div className="min-h-screen w-full overflow-x-hidden flex flex-col bg-[#eee6d3] text-[#181410] relative">
       <style>{`
@@ -63,14 +65,74 @@ export default function Home() {
       `}</style>
 
       {/* ================= TOP NAV ================= */}
-      <header className="shrink-0 w-full px-4 sm:px-8 md:px-16 pt-4 md:pt-6 pb-2 z-20">
-        <nav className="flex flex-wrap items-center justify-center sm:justify-end gap-x-4 sm:gap-x-8 gap-y-2 font-['Space_Mono'] text-xs sm:text-sm tracking-wide">
-          {navItems.map((item) => (
-            <Link key={item.label} to={item.to} className="hover:opacity-60 transition-opacity">
-              {item.label}
-            </Link>
-          ))}
-        </nav>
+      <header className="shrink-0 w-full px-4 sm:px-8 md:px-16 pt-4 md:pt-6 pb-2 z-30 relative">
+        <div className="flex items-center justify-between">
+          {/* LOGO + NAME (M7) — top-left corner, always visible */}
+          <Link to="/" className="flex items-center gap-2 shrink-0" onClick={() => setMenuOpen(false)}>
+            <img
+              src="/icon.png"
+              alt="Logo"
+              className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 object-contain rounded-sm"
+            />
+            <span className="font-['Permanent_Marker'] text-lg sm:text-xl md:text-2xl leading-none">
+              M7
+            </span>
+          </Link>
+
+          {/* DESKTOP NAV LINKS */}
+          <nav className="hidden sm:flex items-center gap-x-6 md:gap-x-8 font-['Space_Mono'] text-xs sm:text-sm tracking-wide">
+            {navItems.map((item) => (
+              <Link key={item.label} to={item.to} className="hover:opacity-60 transition-opacity">
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+
+          {/* MOBILE HAMBURGER BUTTON */}
+          <button
+            type="button"
+            onClick={() => setMenuOpen((prev) => !prev)}
+            aria-label="Toggle menu"
+            aria-expanded={menuOpen}
+            className="sm:hidden flex flex-col justify-center items-center gap-[5px] w-9 h-9 shrink-0"
+          >
+            <span
+              className={`block w-6 h-[2px] bg-[#181410] transition-transform duration-300 ${
+                menuOpen ? "rotate-45 translate-y-[7px]" : ""
+              }`}
+            />
+            <span
+              className={`block w-6 h-[2px] bg-[#181410] transition-opacity duration-300 ${
+                menuOpen ? "opacity-0" : "opacity-100"
+              }`}
+            />
+            <span
+              className={`block w-6 h-[2px] bg-[#181410] transition-transform duration-300 ${
+                menuOpen ? "-rotate-45 -translate-y-[7px]" : ""
+              }`}
+            />
+          </button>
+        </div>
+
+        {/* MOBILE DROPDOWN MENU */}
+        <div
+          className={`sm:hidden overflow-hidden transition-all duration-300 ${
+            menuOpen ? "max-h-80 opacity-100 mt-3" : "max-h-0 opacity-0"
+          }`}
+        >
+          <nav className="flex flex-col items-center gap-1 bg-[#e4d9bf] border border-black/10 rounded-md py-3 font-['Space_Mono'] text-sm tracking-wide shadow-[2px_3px_0_rgba(0,0,0,0.08)]">
+            {navItems.map((item) => (
+              <Link
+                key={item.label}
+                to={item.to}
+                onClick={() => setMenuOpen(false)}
+                className="w-full text-center py-2 hover:opacity-60 hover:bg-black/5 transition-all"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+        </div>
       </header>
 
       {/* ================= MAIN HERO ================= */}
@@ -87,7 +149,41 @@ export default function Home() {
             <span className="inline-block bg-[#e4d9bf] border border-black/15 px-3 md:px-5 py-1.5 md:py-2 text-xs md:text-sm tracking-widest -rotate-2 shadow-[2px_3px_0_rgba(0,0,0,0.08)] mb-3 md:mb-5 font-['Space_Mono']">
               MY PORTFOLIO
             </span>
+            {/* MOBILE-ONLY PHOTO BLOCK (with tape, crown, THIS IS ME) */}
+<div className="md:hidden relative max-w-[200px] mx-auto my-6">
+  {/* Tape strip */}
+  <div className="absolute -top-3 left-1/2 -translate-x-1/2 -rotate-6 w-14 h-4 bg-gradient-to-b from-[#cabb96] to-[#ddd0b1] opacity-90 shadow-sm z-10" />
 
+  {/* Crown SVG */}
+  <svg
+    className="absolute -top-4 -right-2 w-10 sm:w-11 rotate-[35deg] z-20 pointer-events-none"
+    viewBox="0 0 70 50"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M6 40 L10 15 L22 27 L32 8 L42 27 L54 15 L58 40 Z" stroke="#181410" strokeWidth="2.5" strokeLinejoin="round" fill="#eee6d3" />
+    <path style={{ animation: "twinkle 1.8s ease-in-out infinite", transformOrigin: "center", transformBox: "fill-box" }} d="M64 4 L66 10 L72 12 L66 14 L64 20 L62 14 L56 12 L62 10 Z" fill="#181410" />
+    <path style={{ animation: "twinkle 1.8s ease-in-out infinite .6s", transformOrigin: "center", transformBox: "fill-box" }} d="M2 2 L3.5 6 L7.5 7.5 L3.5 9 L2 13 L0.5 9 L-3.5 7.5 L0.5 6 Z" fill="#181410" />
+  </svg>
+
+  {/* Profile Image */}
+  <img
+    src="muhammad-mughira-asad2.png"
+    alt="Muhammad Mughira Asad"
+    className="w-full h-auto block rotate-3 drop-shadow-[0_8px_16px_rgba(0,0,0,0.15)]"
+  />
+
+  {/* THIS IS ME */}
+  <div className="absolute -bottom-6 left-0 flex items-center gap-1 -rotate-2 z-20">
+    <span className="font-['Permanent_Marker'] text-xs leading-none bg-[#eee6d3]/90 px-1.5 py-0.5 rounded shadow-sm">
+      THIS IS ME
+    </span>
+    <svg className="arrow-point w-5" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M6 54 C 14 30, 28 12, 52 4" stroke="#181410" strokeWidth="2.6" strokeLinecap="round" />
+      <path d="M36 2 L54 4 L48 20" stroke="#181410" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  </div>
+</div>
             <h1 className="font-['Permanent_Marker'] leading-[1.05] text-3xl sm:text-5xl md:text-6xl lg:text-7xl mb-3 md:mb-5 break-words">
               MUHAMMAD<br />MUGHIRA ASAD
             </h1>
@@ -145,7 +241,7 @@ export default function Home() {
           </div>
 
           {/* RIGHT COLUMN: Photo & Collaged Accents */}
-          <div className="md:col-span-5 flex flex-col items-center md:items-end justify-center relative mt-6 md:mt-0">
+    <div className="md:col-span-5 hidden md:flex flex-col items-end justify-center relative mt-6 md:mt-0">
             <div className="relative max-w-[240px] sm:max-w-[300px] md:max-w-[360px] w-full">
               {/* Tape strip */}
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 -rotate-6 w-16 md:w-20 h-5 md:h-7 bg-gradient-to-b from-[#cabb96] to-[#ddd0b1] opacity-90 shadow-sm z-10" />
@@ -161,6 +257,8 @@ export default function Home() {
                 <path style={{ animation: "twinkle 1.8s ease-in-out infinite", transformOrigin: "center", transformBox: "fill-box" }} d="M64 4 L66 10 L72 12 L66 14 L64 20 L62 14 L56 12 L62 10 Z" fill="#181410" />
                 <path style={{ animation: "twinkle 1.8s ease-in-out infinite .6s", transformOrigin: "center", transformBox: "fill-box" }} d="M2 2 L3.5 6 L7.5 7.5 L3.5 9 L2 13 L0.5 9 L-3.5 7.5 L0.5 6 Z" fill="#181410" />
               </svg>
+
+              
 
               {/* Profile Image */}
               <img
@@ -185,7 +283,7 @@ export default function Home() {
         </div>
 
         {/* BOTTOM HERO BAR: Plane + Resume Button */}
-        <div className="mt-12 md:mt-6 w-full flex flex-col md:flex-row items-center justify-between gap-6 z-10 pt-4 border-t border-black/10">
+        <div className="mt-4 md:mt-6 w-full flex flex-col md:flex-row items-center justify-between gap-6 z-10 pt-4 border-t border-black/10">
           
           {/* Headline + Plane */}
           <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 sm:gap-4">
@@ -231,7 +329,7 @@ export default function Home() {
       <footer className="shrink-0 relative w-full mt-auto z-20">
         <div className="bg-[#151210] text-[#eee6d3] px-4 sm:px-8 md:px-16 py-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
           <span className="font-['Space_Mono'] text-xs sm:text-sm tracking-wide">
-            Muhammad Mughira Asad — Full Stack AI Engineer
+           I don't build websites; I design them.
           </span>
 
           <div className="flex items-center gap-5">
